@@ -1,0 +1,198 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %} AutoX - {{ product_info.product_name }} {% endblock title %}
+{% block content %}
+<article class="container-fluid">
+	<div class="container single-product-content">
+		<section class="column-left">
+			<div class="woocommerce-notices-wrapper"></div>
+			<div class="header-product">
+				<div class="header-title">
+					<h1 class="product_title entry-title">{{ product_info.product_name }}</h1>
+					<div class="btn-favorite">
+						<div class="yith-wcwl-add-to-wishlist">
+							<!-- ADD TO WISHLIST -->
+							<div class="yith-wcwl-add-button">
+								<a onclick="wishList('{{ product_info.product_id }}', '{{ csrf_token }}', 'single-product');">
+									<i class="yith-wcwl-icon {% if product_info.product_id in wishlist %}fa fa-heart{% else %}fa fa-heart-o{% endif %}" aria-hidden="true"></i>
+                                    <span></span>
+								</a>
+							</div>
+							<!-- COUNT TEXT -->
+						</div>
+					</div>
+				</div>
+				<div class="header-body">
+					<div class="product-image">
+						<img src="/{{ product_info.product_image }}" alt="product-image" id="product-image" draggable="false">
+						<div class="btn-slide">
+							<div class="dot" onclick="changeImg('/{{ product_info.product_image }}')">
+								<input type="hidden" value="/{{ product_info.product_image }}" class="url-image">
+							</div>
+                            {% for i in gallery_product %}
+                            <div class="dot" onclick="changeImg('/{{ i.image }}')">
+                                <input type="hidden" value="/{{ i.image }}" class="url-image">
+                            </div>
+                            {% endfor %}
+						</div>
+					</div>
+					<div class="product-information-group">
+						<div class="product-information">
+							<h3>Specification</h3>
+							<div class="more-info">
+								<div class="more-info-line-1">
+                                    {% if detail_product.0.kilometer %}
+									<div class="kilometer">
+										<div class="icon">
+											<img src="{% static 'images/Vector-3.png' %}" alt="">
+										</div>
+										<span class="content">{{ detail_product.0.kilometer|intcomma }} km</span>
+									</div>
+                                    {% endif %}
+
+                                    {% if detail_product.0.fuel %}
+									<div class="fuel">
+										<div class="icon">
+											<img src="{% static 'images/Group-119.png' %}" alt="">
+										</div>
+										<span class="content">{{ detail_product.0.fuel }}</span>
+									</div>
+                                    {% endif %}
+
+								</div>
+								<div class="more-info-line-2">
+                                    {% if detail_product.0.post_time %}
+									<div class="time">
+										<div class="icon">
+											<img src="{% static 'images/Group-11.png' %}" alt="">
+										</div>
+										<span class="content">{{ detail_product.0.post_time }} </span>
+									</div>
+                                    {% endif %}
+
+                                    {% if detail_product.0.at %}
+									<div class="unknow">
+										<div class="icon">
+											<img src="{% static 'images/Vector-4.png' %}" alt="">
+										</div>
+										<span class="content">{{ detail_product.0.at }}</span>
+									</div>
+                                    {% endif %}
+								</div>
+								<div class="more-info-line-3">
+                                    {% if detail_product.0.cheaper %}
+									<div class="cheaper">
+										<div class="icon">
+											<img src="{% static 'images/Vector-7.png' %}" alt="">
+										</div>
+										<span class="content">{{ detail_product.0.cheaper | intcomma }} VND Cheaper</span>
+									</div>
+                                    {% endif %}
+								</div>
+							</div>
+							<div class="line"></div>
+                            {% if product_info.product_price %}
+							<div class="auction-price">
+								<h2 class="title">Price:</h2>&nbsp;
+								<div class="content">$ {{ product_info.product_price | intcomma }}</div>
+							</div>
+                            {% endif %}
+
+                            {% if detail_product.0.time_remaining %}
+							<div class="time-remaining">
+								<h2 class="title">Add time:</h2>
+								<div class="content">
+									<span id="add-time-{{ product_info.product_id }}"></span>
+								</div>
+							</div>
+                            {% endif %}
+						</div>
+
+						<div class="action">
+							<button class="btn-favorite" id="product-{{ product_info.product_id }}" onclick="wishList('{{ product_info.product_id }}', '{{ csrf_token }}', 'home');">
+		                        <i class="{% if product_info.product_id in wishlist %}fa fa-heart{% else %}fa fa-heart-o{% endif %}" aria-hidden="true"></i>
+		                    </button>
+		                    <button class="btn-add-to-cart" onclick="addCart(this, '{{ product_info.product_id }}')">
+		                        <i class="fa fa-cart-plus" aria-hidden="true"></i>
+		                    </button>
+						</div>
+					</div>
+				</div>
+
+                {% if product_info.product_description %}
+				<div class="product-detail">
+					<h2>Vehicle details</h2>
+					<div class="detail-content">{{ product_info.product_description }}</div>
+				</div>
+                {% endif %}
+				<div class="product-vehicle">
+					<h2>Vehicle details</h2>
+					<div class="vehicle-content">
+                        {% if detail_product.0.condition %}
+						<div class="condition">
+							<div class="title">Condition</div>
+							<div class="content">{{ detail_product.0.condition }}</div>
+						</div>
+                        {% endif %}
+
+                        {% if detail_product.0.color %}
+						<div class="colour">
+							<div class="title">Original Colour</div>
+							<div class="content">{{ detail_product.0.color }}</div>
+						</div>
+                        {% endif %}
+
+                        {% if detail_product.0.reg_date %}
+						<div class="reg-date">
+							<div class="title">Reg. Date</div>
+							<div class="content">{{ detail_product.0.reg_date }}</div>
+						</div>
+                        {% endif %}
+
+                        {% if detail_product.0.body_type %}
+						<div class="body-type">
+							<div class="title">Body Type</div>
+							<div class="content">{{ detail_product.0.body_type }}</div>
+						</div>
+                        {% endif %}
+
+                        {% if detail_product.0.manufacturing_year %}
+						<div class="manufacturing-year">
+							<div class="title">Manufacturing year</div>
+							<div class="content">{{ detail_product.0.manufacturing_year }}</div>
+						</div>
+                        {% endif %}
+
+                        {% if detail_product.0.power %}
+						<div class="power">
+							<div class="title">Power</div>
+							<div class="content">{{ detail_product.0.power }} hp</div>
+						</div>
+                        {% endif %}
+
+                        {% if detail_product.0.seats %}
+						<div class="seats">
+							<div class="title">Seats</div>
+							<div class="content">{{ detail_product.0.seats }} seats</div>
+						</div>
+                        {% endif %}
+
+                        {% if detail_product.0.condition %}
+						<div class="colour">
+							<div class="title">Condition</div>
+							<div class="content">{{ detail_product.0.condition }}</div>
+						</div>
+                        {% endif %}
+					</div>
+				</div>
+                <script> timeAgo('{{ product_info.product_id }}', '{{ product_info.product_create_time }}'); </script>
+            </div>
+        </section>
+        {% include 'help.html' %}
+	</div>
+    {% include 'comment.html' %}
+</article>
+
+{% endblock content %}

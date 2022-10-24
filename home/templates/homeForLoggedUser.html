@@ -1,0 +1,71 @@
+{% extends 'base_template.html' %}
+{% load static %}
+
+{% block title %} AutoX - Home {% endblock title %}
+
+{% block content %}
+    <div class="bg-body"></div>
+    <div class="logo-header admin-bar">
+        <section class="logo">
+            <img src="{% static 'images/Rectangle-13.svg' %}" alt="header-logo-menu-right">
+        </section>
+
+        <section class="text-in-slide">
+            <div class="text-header">
+                <font style="color: #fff; font-weight: 400">START BIDDING</font>
+                <font style="color: #ffbe00; font-weight: 400">YOUR NEXT CAR</font>
+            </div>
+
+            <div class="text-conent">
+                <font style="color: #fff; font-weight: 500">Choose from thousands of New Cars and Used Cars in Vietnam.</font>
+            </div>
+        </section>
+
+        <section class="search-form">
+            <div class="search-content">
+                <input type="text" name="s" placeholder="Search by model..." onkeyup="search('{{ csrf_token }}');">
+                <button type="submit" name="search" onclick="search('{{ csrf_token }}');">Search</button>
+            </div>
+        </section>
+    </div>
+
+    <div class="body-content container">
+        <section class="tab-options">
+            <button class="box-item" value="biddings">
+                <div class="icon">
+                    <i class="fa fa-gavel" aria-hidden="true"></i>
+                </div>
+                <div class="content">
+                    Biddings
+                    <span class="quantity" id="quantity-biddings"></span>
+                </div>
+            </button>
+
+            <button class="box-item" value="favourites">
+                <div class="icon">
+                    <i class="fa fa-heart" aria-hidden="true"></i>
+                </div>
+                <div class="content">
+                    Favourites
+                    <span class="quantity" id="quantity-favourites"></span>
+                </div>
+            </button>
+
+            <button class="box-item" value="results">
+                <div class="icon">
+                    <i class="fa fa-car" aria-hidden="true"></i>
+                </div>
+                <div class="content">
+                    Results
+                    <span class="quantity" id="quantity-results"></span>
+                </div>
+            </button>
+        </section>
+
+        <section class="categories"></section>
+
+        <section id="list-item"></section>
+    </div>
+</article>
+<script>home("{{ csrf_token }}", "home");</script>
+{% endblock content %}

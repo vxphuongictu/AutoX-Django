@@ -1,0 +1,118 @@
+{% load static %}
+{% load humanize %}
+{% for prd in data %}
+    {% if forloop.counter <= max_item %}
+    <script> makeTimer('{{ prd.product_id }}', '{{ prd.attributes.time_remaining }}'); </script>
+    <div class="product-item">
+        <div class="item-group-home-user">
+            <div class="item-group-home-user__link">
+                <a class="user-logged-in" href="/products/detail/{{ prd.product_id }}/">
+                    <div class="image-item">
+                        <img class="product-image" src="{{ prd.product_image }}">
+                    </div>
+                </a>
+
+                <div class="item-information">
+                    <a href="/products/detail/{{ prd.product_id }}/">
+                        <div class="product-name">
+                            <h2>
+                                <span class="content title-name">{{ prd.product_name }}</span>
+                                <span class="content title-name short-description ">{{ prd.prd_short_name }}</span>
+                            </h2>
+                        </div>
+
+                        <div class="more-info">
+                            <div class="group-info">
+                                <div class="more-info-line-1">
+                                    {% if prd.attributes.kilometer %}
+                                    <div class="kilometer">
+                                        <div class="icon">
+                                            <img src="{% static 'images/Vector-3.png' %}" alt="">
+                                        </div>
+                                        <span class="content">{{ prd.attributes.kilometer|intcomma }} km</span>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if prd.attributes.fuel %}
+                                    <div class="fuel ">
+                                        <div class="icon">
+                                            <img src="{% static 'images/Group-119.png' %}" alt="">
+                                        </div>
+                                        <span class="content">{{ prd.attributes.fuel }}</span>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if prd.attributes.at %}
+                                    <div class="unknow ">
+                                        <div class="icon">
+                                            <img src="{% static 'images/Vector-4.png' %}" alt="">
+                                        </div>
+                                        <span class="content">{{ prd.attributes.at }}</span>
+                                    </div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="more-info-line-2">
+                                    {% if prd.attributes.post_time %}
+                                    <div class="time">
+                                        <div class="icon">
+                                            <img src="{% static 'images/Group-11.png' %}" alt="">
+                                        </div>
+                                        <span class="content">{{ prd.attributes.post_time }}</span>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if prd.attributes.cheaper %}
+                                    <div class="cheaper">
+                                        <div class="icon">
+                                            <img src="{% static 'images/Vector-7.png' %}" alt="">
+                                        </div>
+                                        <span class="content">{{ prd.attributes.cheaper|intcomma }} VND Cheaper</span>
+                                    </div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="more-info-line-3">
+                                    {% if prd.product_price %}
+                                    <div class="price">
+                                        <div class="icon">
+                                            <img src="{% static 'images/Vector-5.png' %}" alt="">
+                                        </div>
+                                        <span class="content">Price:</span>
+                                        <span class="sub-content">$ {{ prd.product_price|intcomma }}</span>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="add-cart">
+                    <div class="btn-favorite">
+                        <i class="{% if prd.product_id in wishlist %}fa fa-heart{% else %}fa fa-heart-o{% endif %}" aria-hidden="true" id="product-{{ prd.product_id }}" onclick="wishList('{{ prd.product_id }}', '{{ csrf_token }}', 'home');"></i>
+                    </div>
+                    <button class="btn-favorite" id="product-{{ prd.product_id }}" onclick="wishList('{{ prd.product_id }}', '{{ csrf_token }}', 'home');">
+                        <i class="{% if prd.product_id in wishlist %}fa fa-heart{% else %}fa fa-heart-o{% endif %}" aria-hidden="true"></i>
+                    </button>
+
+                    {% if login == True %}
+                    <div class="btn-add-to-cart" onclick="addCart(this, '{{ prd.product_id }}')">
+                        <i class="fa fa-cart-plus" aria-hidden="true"></i>
+                    </div>
+                    <button class="btn-add-to-cart" onclick="addCart(this, '{{ prd.product_id }}')">
+                        <i class="fa fa-cart-plus" aria-hidden="true"></i>
+                    </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endfor %}
+
+<section class="seemore-logged-in">
+    <button id="btn-see-more">
+        <font style="color: #000; font-weight: 600">See more</font>
+    </button>
+</section>
